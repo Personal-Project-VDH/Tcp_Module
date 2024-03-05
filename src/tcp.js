@@ -1,11 +1,11 @@
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
 moment.locale('vi');
-
+import RNRestart from 'react-native-restart';
 import {getDateTimeCurrent} from './utils';
 import {CHECK_ONLINE} from './enum';
-import {runCallback} from './callback';
-
+import {assignCallback, runCallback} from './callback';
+var net = require('net');
 class TCP {
   constructor() {
     this.count_send = 0;
@@ -18,7 +18,7 @@ class TCP {
     this.count_send = 0;
   }
 
-  resetWhenErr(RNRestart) {
+  resetWhenErr() {
     RNRestart.restart();
   }
 
@@ -44,7 +44,7 @@ class TCP {
     return CHECK_ONLINE.NOT_CONNECT;
   }
 
-  createServer(net) {
+  createServer() {
     this.server = net.createServer(function (socket) {
       this.socket = socket;
 
@@ -68,6 +68,13 @@ class TCP {
     this.server.listen(port, () => {
       console.log('opened server on ' + JSON.stringify(this.server.address()));
     });
+  }
+
+  onData(readFunction) {
+    this.read = {
+      READ: readFunction,
+    };
+    assignCallback(this.read);
   }
 }
 

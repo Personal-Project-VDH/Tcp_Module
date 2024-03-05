@@ -7,15 +7,15 @@ declare module 'TcpLib' {
     count_send: number;
     time_online: any;
     check_online_enum: any;
-
-    createServer(net: any): void;
+    onData(readFunction: any): void;
+    createServer(): void;
     listenPort(port: number): void;
     createCallback(key: string, func: any): void;
     addTime(): void;
     checkConnectTcp(amount_ping: number, time_offline: number): void;
     fontSize(size: number): void;
     resetCountSend(): void;
-    resetWhenErr(RNRestart: any): void;
+    resetWhenErr(): void;
     utils(): {
       UTILS: {
         getDateTimeCurrent(): void;
